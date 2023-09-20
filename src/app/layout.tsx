@@ -18,14 +18,14 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-    <AuthProvider>
-        <Provider>
-          <Flex>
-            <SideNavigationBar />
-            {children}
-          </Flex>
-        </Provider>
-    </AuthProvider>
+        <AuthProvider>
+          <Provider>
+            <Flex>
+              <SideNavigationBar />
+              {children}
+            </Flex>
+          </Provider>
+        </AuthProvider>
       </body>
     </html>
   )
