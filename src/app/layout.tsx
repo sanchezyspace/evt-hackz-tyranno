@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Provider from './Provider'
 import { AuthProvider } from './AuthProvider'
+import SideNavigationBar from './_components/layout/SideNavigationBar'
+import { Flex, HStack, VStack } from '@chakra-ui/react'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,9 +18,14 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <Provider>
-          <AuthProvider>{children}</AuthProvider>
-        </Provider>
+        <AuthProvider>
+          <Provider>
+            <Flex>
+              <SideNavigationBar />
+              {children}
+            </Flex>
+          </Provider>
+        </AuthProvider>
       </body>
     </html>
   )
