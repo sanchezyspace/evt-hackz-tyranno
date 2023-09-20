@@ -1,9 +1,7 @@
 'use client'
 import '@/app/_utils/firebase'
-import { AuthProvider, useAuthContext } from '@/app/AuthProvider'
-import { User, getAuth, onAuthStateChanged } from 'firebase/auth'
+import { useAuthContext } from '@/app/AuthProvider'
 import Link from 'next/link'
-import { useState } from 'react'
 
 export default function Page() {
   const user = useAuthContext()
