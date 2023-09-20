@@ -4,8 +4,12 @@ import { useAuthContext } from '@/app/AuthProvider'
 import Link from 'next/link'
 import TimelinePost from '@/app/_components/ui/TimelinePost'
 import { VStack } from '@chakra-ui/react'
+import { useSearchParams } from 'next/navigation'
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const communityId = searchParams.get('community')
+
   const user = useAuthContext()
   if (user === 'loading') {
     return (

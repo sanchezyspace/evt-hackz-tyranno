@@ -1,11 +1,19 @@
 'use client'
 
-import { Box, Link, VStack } from '@chakra-ui/react'
+import { Box, Link, Select, VStack } from '@chakra-ui/react'
 import { Bell, Bookmark, BookmarkSimple, EnvelopeSimple, GearSix, House, NotePencil, UserCircle,  } from '@phosphor-icons/react'
 import { usePathname, useRouter } from 'next/navigation'
 import NavigationMenuItem from '../ui/NavigationMenuItem'
 import MyAvatar from '../ui/MyAvatar'
 import PostingButton from '../ui/PostingButton'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '@/app/_utils/firebase'
+
+type Community = {
+  id: string;
+  name: string;
+}
 
 export default function SideNavigationBar() {
   const iconSize = 24
@@ -56,11 +64,26 @@ export default function SideNavigationBar() {
 
   ]
 
+  const pathName = usePathname()
   const isCurrent = (href: string) => {
-    const pathName = usePathname()
     return pathName.startsWith(href)
   }
 
+  const router = useRouter();
+  const [communities, setCommunities] = useState<Community[]>([])
+  useEffect(() => {
+    getDocs(collection(db, 'communities')).then(res => {
+      const data = res.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      setCommunities(data as Community[]);
+    })
+  }, [])
+  const onChangeCommunity = (e: ChangeEvent<HTMLSelectElement>) => {
+    router.push(`${pathName}?community=${e.target.value}`)
+    // const url = new URL(location.href);
+    // url.searchParams.set('community', e.target.value);
+    // location.href = url.href;
+    // console.log(url.href)
+  }
 
   return (
     <Box
@@ -93,6 +116,11 @@ export default function SideNavigationBar() {
         <PostingButton />
         <Box flexGrow={2}></Box>
         <MyAvatar />
+        <Select placeholder='Select option' onChange={onChangeCommunity}>
+          {communities?.map((community) => (
+            <option key={ community.id} value={community.id}>{community.name}</option>
+          ))}
+        </Select>
       </VStack>
     </Box>
   )
