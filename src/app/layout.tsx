@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Provider from './Provider'
+import { AuthProvider } from './AuthProvider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <Provider>{children}</Provider>
+        <Provider>
+          <AuthProvider>{children}</AuthProvider>
+        </Provider>
       </body>
     </html>
   )
