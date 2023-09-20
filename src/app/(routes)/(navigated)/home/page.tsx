@@ -4,6 +4,7 @@ import { useAuthContext } from '@/app/AuthProvider'
 import Link from 'next/link'
 import TimelinePost from '@/app/_components/ui/TimelinePost'
 import { VStack } from '@chakra-ui/react'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Post } from '@/app/_types/Post'
 import {
@@ -20,6 +21,9 @@ import { loadable } from 'jotai/utils'
 import { communityState } from '@/app/state'
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const communityId = searchParams.get('community')
+
   const [postsList, setPostsList] = useState<Post[]>([])
   const user = useAuthContext()
 
