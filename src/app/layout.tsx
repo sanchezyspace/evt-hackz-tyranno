@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import Provider from './Provider'
 import { AuthProvider } from './AuthProvider'
 import SideNavigationBar from './_components/layout/SideNavigationBar'
-import { Flex, HStack, VStack } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 
 export const metadata: Metadata = {
   title: 'Create Next App',

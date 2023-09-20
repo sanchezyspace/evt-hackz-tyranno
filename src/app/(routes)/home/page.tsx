@@ -15,18 +15,20 @@ export default function Page() {
     )
   }
 
-  if (user === null) {
-    return (
-      <>
-        <h1>Not logged in</h1>
-        <Link href={'/signin'}>Sign in</Link>
-      </>
-    )
-  }
-
   return (
     <>
       <VStack>
+        {user === null ? (
+          <>
+            <h1>Not logged in</h1>
+            <Link href={'/signin'}>Sign in</Link>
+          </>
+        ) : (
+          <>
+            <h1>Welcome, {user.displayName}</h1>
+            <Link href={'/signout'}>Sign out</Link>
+          </>
+        )}
         <TimelinePost
           avatarUrl="https://avatars.githubusercontent.com/u/6916170?v=4"
           displayName="万事急須"
@@ -49,4 +51,3 @@ export default function Page() {
     </>
   )
 }
-
