@@ -4,9 +4,44 @@ import { useAuthContext } from '@/app/AuthProvider'
 import Link from 'next/link'
 import TimelinePost from '@/app/_components/ui/TimelinePost'
 import { VStack } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { Post } from '@/app/_types/Post'
+import {
+  collection,
+  doc,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore'
+import { db } from '@/app/_utils/firebase'
+import { useAtomValue } from 'jotai'
+import { loadable } from 'jotai/utils'
+import { communityState } from '@/app/state'
 
 export default function Page() {
+  const [postsList, setPostsList] = useState<Post[]>([])
   const user = useAuthContext()
+
+  const community = useAtomValue(loadable(communityState))
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(
+        collection(db, 'communities', 'test', 'posts'),
+        orderBy('created_at', 'desc'),
+        limit(20),
+      ),
+      (doc) => {
+        console.log('Added data: ', doc.docChanges())
+        setPostsList(doc.docs.map((doc) => doc.data() as Post))
+      },
+    )
+    return unsubscribe
+  }, [])
+
+  console.log("posts list: ", postsList)
+
   if (user === 'loading') {
     return (
       <>
@@ -14,7 +49,6 @@ export default function Page() {
       </>
     )
   }
-
   return (
     <>
       <VStack>
