@@ -5,6 +5,7 @@ import { Bell, Bookmark, BookmarkSimple, EnvelopeSimple, GearSix, House, NotePen
 import { usePathname, useRouter } from 'next/navigation'
 import NavigationMenuItem from '../ui/NavigationMenuItem'
 import MyAvatar from '../ui/MyAvatar'
+import PostingButton from '../ui/PostingButton'
 
 export default function SideNavigationBar() {
   const iconSize = 24
@@ -19,7 +20,7 @@ export default function SideNavigationBar() {
     {
       disabledIcon: <NotePencil weight={iconWeight} size={iconSize} />,
       enabledIcon: <NotePencil weight={'fill'} size={iconSize} />,
-      label: '',
+      label: '新規作成',
       href: '/publish',
     },
       {
@@ -43,7 +44,7 @@ export default function SideNavigationBar() {
       {
         disabledIcon: <UserCircle weight={iconWeight} size={iconSize} />,
         enabledIcon: <UserCircle weight={'fill'} size={iconSize} />,
-        label: 'メッセージ',
+        label: 'マイページ',
         href: '/mypage',
       },
       {
@@ -89,6 +90,7 @@ export default function SideNavigationBar() {
             </NavigationMenuItem>
           )
         })}
+        <PostingButton />
         <Box flexGrow={2}></Box>
         <MyAvatar />
       </VStack>
