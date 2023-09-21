@@ -25,7 +25,12 @@ import { PageTitle } from '@/app/_components/ui/PageTitle'
 
 export default function Page() {
   const searchParams = useSearchParams()
-  const communityId = searchParams.get('community')
+  // const communityId = searchParams.get('community')
+  const [communityId, setCommunityId] = useState<string | null>(null)
+  useEffect(() => {
+    const id = localStorage.getItem('communityId')
+    setCommunityId(id)
+  }, [])
 
   const [postsList, setPostsList] = useState<Post[]>([])
   const [topPostBodyFormValue, setTopPostBodyFormValue] = useState<string>('')
@@ -67,6 +72,8 @@ export default function Page() {
   }
 
   useEffect(() => {
+    console.log(communityId);
+
     if (communityId === null) {
       return
     }

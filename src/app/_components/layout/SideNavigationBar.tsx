@@ -15,7 +15,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import NavigationMenuItem from '../ui/NavigationMenuItem'
 import UserIconButton from '../ui/UserIconButton'
 import PostingButton from '../ui/PostingButton'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, PropsWithChildren, useEffect, useState } from 'react'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/app/_utils/firebase'
 import { updateUserState, userInfoState } from '@/app/_states/userInfoState'
@@ -26,7 +26,7 @@ type Community = {
   name: string
 }
 
-export default function SideNavigationBar() {
+export default function SideNavigationBar({children}: PropsWithChildren) {
   const iconSize = 24
   const iconWeight = 'regular'
   const navMenuItems = [
@@ -92,7 +92,8 @@ export default function SideNavigationBar() {
     updateUser()
   }, [updateUser])
   const onChangeCommunity = (e: ChangeEvent<HTMLSelectElement>) => {
-    router.push(`${pathName}?community=${e.target.value}`)
+    // router.push(`${pathName}?community=${e.target.value}`)
+    localStorage.setItem('communityId', e.target.value)
     // const url = new URL(location.href);
     // url.searchParams.set('community', e.target.value);
     // location.href = url.href;
