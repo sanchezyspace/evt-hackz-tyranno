@@ -1,6 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { AuthProvider } from './AuthProvider'
-import Provider from './Provider'
+import Provider from './provider'
 
 export const metadata = {
   title: 'Next.js',

@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@chakra-ui/react'
-import Provider from './Provider'
+import Provider from './provider'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuthContext } from './AuthProvider'
