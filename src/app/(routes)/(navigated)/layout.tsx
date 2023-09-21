@@ -4,6 +4,7 @@ import Provider from '../../Provider'
 import { AuthProvider } from '../../AuthProvider'
 import SideNavigationBar from '../../_components/layout/SideNavigationBar'
 import { Flex } from '@chakra-ui/react'
+import HaikuGenerator from '@/app/_components/widgets/HaikuGenerator'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,6 +20,9 @@ export default function RootLayout({
     <Flex>
       <SideNavigationBar />
       {children}
+
+      <HaikuGenerator />
+
     </Flex>
   )
 }
