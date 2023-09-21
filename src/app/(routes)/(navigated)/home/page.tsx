@@ -22,6 +22,7 @@ import PostingForm from '@/app/_components/ui/PostingForm'
 import { userInfoState } from '@/app/_states/userInfoState'
 import { useAtomValue } from 'jotai'
 import { PageTitle } from '@/app/_components/ui/PageTitle'
+import { attemptPlayFromPostBody } from '@/app/_utils/iot_music_box'
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -66,6 +67,8 @@ export default function Page() {
         firestorePost,
       )
       setTopPostBodyFormValue('')
+
+      await attemptPlayFromPostBody(topPostBodyFormValue)
     } catch (error) {
       console.error('Error adding document: ', error)
     }
@@ -121,7 +124,13 @@ export default function Page() {
   }
   return (
     <>
-      <VStack width={'100%'} maxWidth={'700px'} padding={6} overflowY={'auto'} height="100%">
+      <VStack
+        width={'100%'}
+        maxWidth={'700px'}
+        padding={6}
+        overflowY={'auto'}
+        height="100%"
+      >
         <PageTitle>ホーム</PageTitle>
 
         <PostingForm

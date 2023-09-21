@@ -1,3 +1,6 @@
+import { addDoc, collection } from 'firebase/firestore'
+import { db } from './firebase'
+
 type WordScoreMap = {
   title: string
   words: string[]
@@ -52,5 +55,26 @@ const wordScoreMap = [
     score: '',
   },
 ]
+export const getMatchedScore = (postBody: string) => {
+  const words = wordScoreMap.flatMap((e) => e.words)
+  const score = wordScoreMap.flatMap((e) => e.score)
+  const matchedIndex = words.findIndex((word) => postBody.includes(word))
+  if (matchedIndex === -1) {
+    return
+  }
+  const matchedScore = score[matchedIndex]
+  return matchedScore
+}
 
-export const attemptPlayFromPostBody = (postBody: string) => {}
+export const attemptPlayFromPostBody = async (postBody: string) => {
+  const matchedScore = getMatchedScore(postBody)
+  if (matchedScore) {
+    await addDoc(collection(db, 'esp_commands_queue'), {
+      endpoint: 'play',
+      method: 'POST',
+      query_params: {
+        song: matchedScore,
+      },
+    })
+  }
+}

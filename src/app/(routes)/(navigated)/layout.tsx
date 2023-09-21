@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Provider from '../../Provider'
+import Provider from '../../provider'
 import { AuthProvider } from '../../AuthProvider'
 import SideNavigationBar from '../../_components/layout/SideNavigationBar'
 import { Flex } from '@chakra-ui/react'
