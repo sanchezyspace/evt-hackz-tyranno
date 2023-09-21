@@ -18,6 +18,7 @@ import { db } from '@/app/_utils/firebase'
 import { useAuthContext } from '@/app/AuthProvider'
 
 import { nanoid } from 'nanoid'
+import { startRevolvingLight } from '@/app/_utils/iot_revolving_light'
 
 type Props = {
   avatarUrl?: string
@@ -71,6 +72,10 @@ export default function TimelinePost(props: Props) {
     if (currentCommunityId === null) return
 
     console.log(props.downvoteUsers)
+
+    if (props.downvoteUsers.length > 10) {
+      startRevolvingLight({red: true, yellow: true, buzzer: true, duration: 1000})
+    }
 
     updateDoc(
       doc(db, 'communities', currentCommunityId, 'posts', props.firebasePostId),
