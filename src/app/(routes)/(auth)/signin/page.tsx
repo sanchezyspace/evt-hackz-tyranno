@@ -1,25 +1,23 @@
 'use client'
 
 import { auth, googleAuthProvider } from '@/app/_utils/firebase_authentication'
-import {
-  Button,
-  Center,
-  Flex,
-  HStack,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Button, Center, Flex, HStack, Text, VStack } from '@chakra-ui/react'
 import { GoogleLogo } from '@phosphor-icons/react'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { useAtom } from 'jotai'
+import { updateUserState, userInfoState } from '@/app/_states/userInfoState'
 import { useRouter } from 'next/navigation'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '@/app/_utils/firebase'
 
 export default function Page() {
-
   const router = useRouter()
+  const [user, setUser] = useAtom(userInfoState)
+  const [, updateUser] = useAtom(updateUserState)
 
   const handleClickSignIn = () => {
     signInWithPopup(auth, googleAuthProvider)
-      .then((result) => {
+      .then(async (result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result)
         if (credential === null) {
           throw new Error('GoogleAuthProvider.credentialFromResult is null')
@@ -30,7 +28,14 @@ export default function Page() {
         console.log('token', token)
         console.log('user', user)
 
-        router.push('/home')
+        const res = await getDoc(doc(db, 'users', user.uid))
+        if (!res.exists()) {
+          router.push('/create_account')
+          return
+        } else {
+          router.push('/')
+          return
+        }
       })
       .catch((error) => {
         const errorCode = error.code

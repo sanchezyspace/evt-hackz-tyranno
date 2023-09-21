@@ -3,6 +3,8 @@ import { PlusCircle } from '@phosphor-icons/react'
 import { MouseEventHandler } from 'react'
 
 type Props = {
+  width?: string
+  height?: string
   onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
@@ -10,8 +12,8 @@ export default function PostingButton(props: Props) {
   return (
     <Box alignContent="center">
       <Button
-        width={'200px'}
-        height={'50px'}
+        width={props.width ?? '200px'}
+        height={props.height ?? '50px'}
         borderRadius="100px"
         onClick={props.onClick}
         bg={'red.400'}
