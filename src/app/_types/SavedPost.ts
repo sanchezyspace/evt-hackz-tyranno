@@ -1,10 +1,8 @@
-import { DocumentReference } from "firebase/firestore"
-import { Post } from "./Post"
+import { Post } from './Post'
 
 export type SavedPost = {
-  firestore_ref: DocumentReference
+  firestore_doc_id: string
   created_at: Date
   edited_at: Date
   post: Post
 }
-
