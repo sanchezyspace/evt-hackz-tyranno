@@ -1,7 +1,7 @@
 'use client'
 import '@/app/_utils/firebase'
 import Link from 'next/link'
-import TimelinePost from '@/app/_components/ui/TimelinePost'
+import TimelinePost from './TimelinePost'
 import { VStack } from '@chakra-ui/react'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -34,41 +34,8 @@ export default function Page() {
 
   const [postsList, setPostsList] = useState<Post[]>([])
   const [topPostBodyFormValue, setTopPostBodyFormValue] = useState<string>('')
-  const user = useAtomValue(userInfoState)
 
   const handleClickPostButton = async () => {
-    if (communityId === null) {
-      return
-    }
-    if (user === null || user === 'loading') {
-      return
-    }
-    const post: Post = {
-      firestore_doc_id: '',
-      body: topPostBodyFormValue,
-      created_at: new Date(),
-      edited_at: new Date(),
-      upvote_users: [],
-      downvote_users: [],
-      replies: [],
-      media_urls: [],
-      author_info: {
-        user_name: user.user_name,
-        display_name: user.display_name,
-        avatar_url: user.avatar_url,
-      },
-    }
-    const firestorePost = createFirestorePost(communityId, post)
-    console.log(firestorePost)
-    try {
-      await addDoc(
-        collection(db, 'communities', communityId, 'posts'),
-        firestorePost,
-      )
-      setTopPostBodyFormValue('')
-    } catch (error) {
-      console.error('Error adding document: ', error)
-    }
   }
 
   useEffect(() => {
@@ -102,29 +69,12 @@ export default function Page() {
     )
     return unsubscribe
   }, [communityId])
-
-  if (user === 'loading') {
-    return (
-      <>
-        <h1>Loading...</h1>
-      </>
-    )
-  }
-
-  if (user === null) {
-    return (
-      <>
-        <h1>Not logged in</h1>
-        <Link href={'/signin'}>Sign in</Link>
-      </>
-    )
-  }
   return (
     <>
       <VStack width={'100%'} maxWidth={'700px'} padding={6}>
         <PageTitle>ホー</PageTitle>
         <PostingForm
-          userAvatarUrl={user.avatar_url}
+          userAvatarUrl={'https://secure.gravatar.com/avatar/a1a9f42c83fdfddcfed0da2b981d4fea?s=300&d=identicon&r=g'}
           placeholder="いまどうしてる？"
           formValue={topPostBodyFormValue}
           onFormChange={(e) => {
@@ -132,17 +82,6 @@ export default function Page() {
           }}
           onPostButtonClick={handleClickPostButton}
         />
-        {user === null ? (
-          <>
-            <h1>Not logged in</h1>
-            <Link href={'/signin'}>Sign in</Link>
-          </>
-        ) : (
-          <>
-            {/* <h1>Welcome, {user.display_name}</h1>
-            <Link href={'/signout'}>Sign out</Link> */}
-          </>
-        )}
         {postsList.map((post) => {
           return (
             <TimelinePost
@@ -156,6 +95,7 @@ export default function Page() {
               likesNumber={post.upvote_users.length.toString()}
               firebasePostId={post.firestore_doc_id}
               upvoteUsers={post.upvote_users}
+              downvoteUsers={post.downvote_users}
             />
           )
         })}

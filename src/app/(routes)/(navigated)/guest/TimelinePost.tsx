@@ -8,7 +8,7 @@ import {
   DotsThree,
   Export,
 } from '@phosphor-icons/react'
-import PostActionButton from './PostActionButton'
+import PostActionButton from '../../../_components/ui/PostActionButton'
 import { useAtomValue } from 'jotai'
 import { userInfoState } from '@/app/_states/userInfoState'
 import { useEffect, useRef, useState } from 'react'
@@ -16,6 +16,8 @@ import { useEffect, useRef, useState } from 'react'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/app/_utils/firebase'
 import { useAuthContext } from '@/app/AuthProvider'
+
+import { nanoid } from 'nanoid'
 
 type Props = {
   avatarUrl?: string
@@ -29,36 +31,20 @@ type Props = {
   dislikesNumber?: string
   firebasePostId: string
   upvoteUsers: string[]
+  downvoteUsers: string[]
 }
 
 export default function TimelinePost(props: Props) {
-  const user = useAtomValue(userInfoState)
-  const authUser = useAuthContext()
   const [isLiked, setIsLiked] = useState(false)
   const [isDisliked, setIsDisliked] = useState(false)
   const [likesNumber, setLikesNumber] = useState(0)
-  const [currentCommunityId, setCurrentCommunityId] = useState<string | null>(
-    null,
-  )
+  const currentCommunityId = '91wKf49fmPHWCGYX574K'
+  // const [currentCommunityId, setCurrentCommunityId] = useState<string | null>(
+  //   null,
+  // )
   // ...
   let postRef = useRef<any>(null)
-
-  useEffect(() => {
-    setCurrentCommunityId(localStorage.getItem('communityId'))
-    if (currentCommunityId === null) {
-      return
-    }
-    postRef.current = doc(
-      db,
-      'communities',
-      currentCommunityId,
-      'posts',
-      props.firebasePostId,
-    )
-    setCurrentCommunityId(currentCommunityId)
-  }, [currentCommunityId, props.firebasePostId])
   // ...
-
 
   useEffect(() => {
     if (isLiked) {
@@ -76,45 +62,22 @@ export default function TimelinePost(props: Props) {
     }
   }, [isDisliked, likesNumber])
 
-  const handleLike = () => {
-    if (
-      currentCommunityId === null ||
-      authUser === null ||
-      authUser === 'loading'
-    ) {
-      return
-    }
+  const handleLike = () => {}
 
-    const isUpvoted = props.upvoteUsers.includes(authUser.uid)
-    if (isUpvoted) return
-    updateDoc(
-      doc(db, 'communities', currentCommunityId, 'posts', props.firebasePostId),
-      {
-        upvote_users: [...props.upvoteUsers, authUser.uid],
-      },
-    )
-  }
+  const handleCancelLike = () => {}
 
-  const handleCancelLike = () => {
-    if (
-      currentCommunityId === null ||
-      authUser === null ||
-      authUser === 'loading'
-    ) {
-      return
-    }
-
-    const isUpvoted = props.upvoteUsers.includes(authUser.uid)
-    if (isUpvoted) return
-    updateDoc(
-      doc(db, 'communities', currentCommunityId, 'posts', props.firebasePostId),
-      {
-        upvote_users: [...props.upvoteUsers, authUser.uid],
-      },
-    )
-  }
   const handleDislike = () => {
-    setIsDisliked(!isDisliked)
+    console.log(currentCommunityId)
+    if (currentCommunityId === null) return
+
+    console.log(props.downvoteUsers)
+
+    updateDoc(
+      doc(db, 'communities', currentCommunityId, 'posts', props.firebasePostId),
+      {
+        downvote_users: [...props.downvoteUsers, nanoid()],
+      },
+    )
   }
 
   return (
@@ -174,7 +137,8 @@ export default function TimelinePost(props: Props) {
             {/* よくないね*/}
             <PostActionButton
               icon={<ArrowFatDown size={'18px'} color={'gray'} />}
-              amount={props.dislikesNumber}
+              amount={props.downvoteUsers.length.toString()}
+              onClick={handleDislike}
             ></PostActionButton>
             {/* 共有*/}
             <PostActionButton

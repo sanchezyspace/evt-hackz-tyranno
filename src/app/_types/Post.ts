@@ -8,7 +8,7 @@ export type Post = {
   edited_at: Date
   body: string
   media_urls: Array<string>
-  upvote_users: Array<User>
+  upvote_users: Array<string>
   downvote_users: Array<User>
   replies: Array<Post>
   author_info: {
