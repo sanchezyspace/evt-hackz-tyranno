@@ -27,7 +27,7 @@ const wordScoreMap = [
   },
   {
     title: '鼻から牛乳',
-    words: ['おわった', '終わった'],
+    words: ['おわった', '終わった',],
     score: 'iT200L24 ^AvG^AAAARRRT100vGT280FEDT160C#C#C#DDDD',
   },
   {
@@ -102,6 +102,11 @@ const wordScoreMap = [
     score:
       'T180 L24 ^ E-RE-RE- RE-RE--R C#D#D#RD#RF#F# RE---RvG#- ^ E-RE-RE- RE-RE--R C#D#D#RD#REE RC#---RRR',
   },
+  {
+    title: 'HOT LIMIT',
+    words: ['陽性', '魅惑のマーメイド'],
+    score: 'iT130 ^ L24F#RG#D# L12F#-RG#L24RD# C#BC#D# L12C#RBvG#L24-R G#^BC#D# F#D#C#B C#BC#L12BD# L12R^D#-RD#-RRv L24F#RG#D# L12F#-RG#L24RD# C#BC#D# L12C#RBvG#L24-R G#^BC#D# F#D#C#D# F#D#^A#L12-R L24vG#--R'
+  }
 ]
 export const getMatchedScore = (postBody: string) => {
   const words = wordScoreMap.flatMap((e) => e.words)
