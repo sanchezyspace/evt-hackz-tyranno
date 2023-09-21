@@ -45,7 +45,7 @@ export default function HaikuGenerator() {
   }
 
   return (
-    <HStack>
+    <HStack display={['none', 'block']} >
       <VStack>
         {haikuReview !== null ? (
           <Image
