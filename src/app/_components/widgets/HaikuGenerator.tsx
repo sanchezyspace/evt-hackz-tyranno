@@ -3,6 +3,7 @@
 type Props = {}
 
 import {
+  Box,
   Button,
   Flex,
   HStack,
@@ -36,6 +37,11 @@ export default function HaikuGenerator() {
     setHaikuReview('unko')
   }
 
+  const handleClickMeiku: MouseEventHandler<HTMLButtonElement> = () => {
+    setRotate(0)
+    setHaikuReview('meiku')
+  }
+
   const resetForms = () => {
     setKaminoku('')
     setNakanoku('')
@@ -49,9 +55,11 @@ export default function HaikuGenerator() {
       <VStack>
         {haikuReview !== null ? (
           <Image
-            position={'absolute'}
-            top={'163px'}
-            left={'406px'}
+            position={'relative'}
+            top={'221px'}
+            left={'47px'}
+            width={'300px'}
+            height={'300px'}
             src={
               haikuReview == 'meiku'
                 ? '/widget/haiku-generator/hoshi.png'
@@ -63,8 +71,9 @@ export default function HaikuGenerator() {
             zIndex={'-1000'}
           ></Image>
         ) : (
-          <></>
+          <Box width={'300px'} height={'300px'} />
         )}
+
         <Flex
           marginTop={'20px'}
           style={{
@@ -105,7 +114,11 @@ export default function HaikuGenerator() {
         {isValidHaiku ? (
           <VStack>
             <HStack>
-              <Button colorScheme={'red'} color={'white'}>
+              <Button
+                colorScheme={'red'}
+                color={'white'}
+                onClick={handleClickMeiku}
+              >
                 名句！
               </Button>
               <Button

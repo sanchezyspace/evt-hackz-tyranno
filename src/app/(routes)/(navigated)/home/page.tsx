@@ -121,8 +121,9 @@ export default function Page() {
   }
   return (
     <>
-      <VStack width={'100%'} maxWidth={'700px'} padding={6}>
-        <PageTitle>ホー</PageTitle>
+      <VStack width={'100%'} maxWidth={'700px'} padding={6} overflowY={'auto'} height="100%">
+        <PageTitle>ホーム</PageTitle>
+
         <PostingForm
           userAvatarUrl={user.avatar_url}
           placeholder="いまどうしてる？"
