@@ -9,7 +9,7 @@ export type Post = {
   body: string
   media_urls: Array<string>
   upvote_users: Array<string>
-  downvote_users: Array<User>
+  downvote_users: Array<string>
   replies: Array<Post>
   author_info: {
     user_name: string
