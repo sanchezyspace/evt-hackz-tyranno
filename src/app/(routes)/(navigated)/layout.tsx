@@ -17,12 +17,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <Flex>
+    <Flex height="100vh" justifyContent={'space-between'}>
       <SideNavigationBar />
       {children}
 
-      <HaikuGenerator />
-
+      <Flex maxWidth={'400px'}>
+        <HaikuGenerator />
+      </Flex>
     </Flex>
   )
 }
