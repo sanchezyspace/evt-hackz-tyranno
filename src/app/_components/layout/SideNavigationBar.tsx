@@ -101,7 +101,7 @@ export default function SideNavigationBar({children}: PropsWithChildren) {
   }
 
   return (
-    <Box as="nav" width="250px" p={4} bg={'gray.100'} height="100vh">
+    <Box display={['none', 'block']} as="nav" width="250px" p={4} bg={'gray.100'} height="100vh">
       <VStack
         justify="center"
         alignItems="left"
